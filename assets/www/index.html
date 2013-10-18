@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone-no">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+	<title>NOIDZ</title>
+	
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+	<link href="css/photoswipe.css" type="text/css" rel="stylesheet" />
+
+	<script src="cordova.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.mobile-1.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.1.6.0.min.js"></script> 
+	<script type="text/javascript" src="js/video.js"></script> 
+	<script type="text/javascript" src="js/klass.min.js"></script>
+	<script type="text/javascript" src="js/code.photoswipe-3.0.5.min.js"></script>
+
+
+	<script>
+
+
+		function init() {
+			$(document).addEventListener("deviceready", onDeviceReady(), false);
+		};
+		
+		function onDeviceReady() {
+			//alert("ready");
+			navigator.splashscreen.hide();
+			//checkConnection();
+
+			$( "#homeMenu" ).fadeIn(600);
+
+	    	$('#btnVidLocal').live('touchend', function( event ,data){
+	    		window.plugins.videoPlayer.play('file:///android_asset/www/video/teaser.mp4','_blank','location=no','closebuttoncaption=Return','clearcache=yes');
+	    	});
+
+	    	$('#playAudio1').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/01ChapeuPreto.mp3", "img/cover2.jpg", "Chapéu Preto");
+		        });
+
+	    	$('#playAudio2').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/02RootSoundsfromEarth.mp3", "img/cover1.jpg", "Root Sounds From Earth");
+		        });
+
+	    	$('#playAudio3').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/03WearetheFuture.mp3", "img/cover4.jpg", "We Are The Future");
+		        });
+
+	    	$('#playAudio4').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/04MessagefeatJulioPereira.mp3", "img/cover4.jpg", "Message feat Julio Pereira");
+		        });
+
+	    	$('#playAudio5').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/05AlienoidzTheme.mp3", "img/cover1.jpg", "Alienoidz Theme");
+		        });
+
+	    	$('#playAudio6').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/06BlastWaves.mp3", "img/cover1.jpg", "Blast Waves");
+		        });
+
+	    	$('#playAudio7').live('touchend', function( event ,data){
+	    		playAudio("/android_asset/www/audio/072012.mp3", "img/cover4.jpg", "2012");
+		        });
+
+	    	$('#pauseAudio1').live('touchend', function( event ,data){
+	    		pauseAudio();
+		        });
+
+	    	$('#playPausedAudio1').live('touchend', function( event ,data){
+	    		playPausedAudio();
+		        });
+
+	    	$('#stopAudio1').live('touchend', function( event ,data){
+	    		stopAudio();
+		        });
+
+	    	// Audio player
+        	//
+        	var my_media = null;
+        	var mediaTimer = null;
+			var playing = false;
+
+        	// Play audio
+        	//
+        	function playAudio(src, srcimg, srcnome) {
+        		// Clean up old file
+	   	    	if (my_media != null) {
+					my_media.release();
+				};
+            	// Create Media object from src
+            	my_media = new Media(src, stopAudio, null);
+            	my_media.play();
+				var tocar = $('#playAudio1');
+				var parar = $('#pauseAudio1');
+				var pararPlayed = $('#playPausedAudio1');
+				pararPlayed.hide();
+				parar.show();
+				tocar.hide();	
+
+
+                document.getElementById('audioCover').src = srcimg;  
+				
+		        document.getElementById('song-played').innerHTML = srcnome;
+
+
+            // Get duration
+		    var counter = 0;
+		    var timerDur = setInterval(function() {
+		        counter = counter + 100;
+		        if (counter > 2000) {
+		            clearInterval(timerDur);
+		        }
+		        var dur = my_media.getDuration();
+		        if (dur > 1) {
+		            clearInterval(timerDur);
+		            document.getElementById('media-total-played').innerHTML = dur;
+		        }
+		   }, 100);
+
+            	// Update my_media position every second
+            	if (mediaTimer == null) {
+                	mediaTimer = setInterval(function() {
+                    	// get my_media position
+                    	my_media.getCurrentPosition(
+                        // success callback
+                        function(position) {
+                            if (position > 0) {
+                                setAudioPosition(Math.floor(position));
+                                setAudioPercentage(position);
+                            }
+                        },
+                        // error callback
+                        function(e) {
+                            console.log("Error getting pos=" + e);
+                            setAudioPosition("Error: " + e);
+                        }
+                    );
+                }, 10); 
+
+
+            }; // FIM playAudio
+
+        }; // DeviceReady
+
+        function playPausedAudio() {
+			
+			my_media.play();
+            var tocar = $('#playAudio1');
+			var parar = $('#pauseAudio1');
+			var pararPlayed = $('#playPausedAudio1');
+			pararPlayed.hide();
+			tocar.hide();
+			parar.show(); 
+
+            // Update my_media position every second
+            if (mediaTimer == null) {
+                mediaTimer = setInterval(function() {
+                    // get my_media position
+                    my_media.getCurrentPosition(
+                        // success callback
+                        function(position) {
+                            if (position > -1) {
+                                setAudioPosition(Math.floor(position));
+                            }
+                        },
+                        // error callback
+                        function(e) {
+                            console.log("Error getting pos=" + e);
+                            setAudioPosition("Error: " + e);
+                        }
+                    );
+                }, 1000);
+            };
+
+            // Get duration
+		    var counter = 0;
+		    var timerDur = setInterval(function() {
+		        counter = counter + 100;
+		        if (counter > 2000) {
+		            clearInterval(timerDur);
+		        }
+		        var dur = my_media.getDuration();
+		        if (dur > 0) {
+		            clearInterval(timerDur);
+		            document.getElementById('media-total-played').innerHTML = dur;
+		        }
+		   }, 100);
+
+
+        };
+
+        // Pause audio
+        // 
+        function pauseAudio() {
+            if (my_media) {
+                my_media.pause();
+                var tocar = $('#playAudio1');
+				var parar = $('#pauseAudio1');
+				var pararPlayed = $('#playPausedAudio1');
+				pararPlayed.show();
+				tocar.hide();
+				parar.hide(); 
+            }
+        }
+
+        // Stop audio
+        // 
+        function stopAudio() {
+            if (my_media) {
+                my_media.stop();
+                var tocar = $('#playAudio1');
+				var parar = $('#pauseAudio1');
+				var pararPlayed = $('#playPausedAudio1');
+				tocar.hide();
+				parar.hide(); 
+				pararPlayed.show(); 
+				document.getElementById('media-played').innerHTML = "00:00";
+				//playing = false;
+                //document.getElementById('playAudio1').src = "img/play.jpg";    
+				document.getElementById('percentageAudio').innerHTML = "<input type='range' name='time-slider' id='secondTime-slider' value='0' min='0' max='100' data-highlight='true' />";
+            }
+            clearInterval(mediaTimer);
+            mediaTimer = null;
+
+            
+            // Get duration
+		    var counter = 0;
+		    var timerDur = setInterval(function() {
+		        counter = counter + 100;
+		        if (counter > 2000) {
+		            clearInterval(timerDur);
+		        }
+		        var dur = my_media.getDuration();
+		        if (dur > 0) {
+		            clearInterval(timerDur);
+		            document.getElementById('media-total-played').innerHTML = dur;
+		        }
+		   }, 100);
+
+
+        }
+
+        // onSuccess Callback
+        //
+        function onSuccess() {
+            alert("playAudio():Audio Success");
+        }
+
+        // onError Callback 
+        //
+        function onError(error) {
+            alert('code: '    + error.code    + '\n' + 
+                  'message: ' + error.message + '\n');
+        }
+
+        // Set audio position
+        // 
+        function setAudioPosition(position) {
+        	var posAudioMinutes = Math.floor(position / 60);
+        	var posAudioSeconds = Math.floor(position % 60);
+        	if (posAudioSeconds < 10) {
+        		posAudioSeconds = '0' + posAudioSeconds;
+        	};
+        	if (posAudioMinutes < 10) {
+        		posAudioMinutes = '0' + posAudioMinutes;
+        	};
+            document.getElementById('media-played').innerHTML = posAudioMinutes + ":" + posAudioSeconds;
+            //position = parseInt(position);
+			//var audioPosicao =  (position / 60) + ":" + (position % 60 < 10 ? '0' : '') + Math.floor(position % 60);
+			//HTML = ''
+			//document.getElementById('media-played').innerHTML = (position / 60) + ":" + (position % 60 < 10 ? '0' : '') + Math.floor(position % 60);
+        }
+
+        function setAudioPercentage(position) {
+			var duracao = my_media.getDuration();
+			var durAudioMinutes = Math.floor(duracao / 60);
+        	var durAudioSeconds = Math.floor(duracao % 60);
+        		if (durAudioSeconds < 10) {
+        			durAudioSeconds = '0' + durAudioSeconds;
+        		};
+        		if (durAudioMinutes < 10) {
+        			durAudioMinutes = '0' + durAudioMinutes;
+        		};
+		    document.getElementById('media-total-played').innerHTML = durAudioMinutes + ":" + durAudioSeconds;
+        }
+
+		};
+
+
+
+		function checkConnection() {
+		    networkState = navigator.network.connection.type;
+
+		    var states = {};
+		    states[Connection.UNKNOWN]  = 'Unknown connection';
+		    states[Connection.ETHERNET] = 'Ethernet connection';
+		    states[Connection.WIFI]     = 'WiFi connection';
+		    states[Connection.CELL_2G]  = 'Cell 2G connection';
+		    states[Connection.CELL_3G]  = 'Cell 3G connection';
+		    states[Connection.CELL_4G]  = 'Cell 4G connection';
+		    states[Connection.NONE]     = 'No network connection';
+
+		    if (states[networkState] == 'WiFi connection') {
+		    	//alert('Não tem ligação á Internet');
+		    	var online = $('#online');
+			    var offline = $('#offline');
+			    online.show();
+			    offline.hide(); 
+
+		    }else{
+		    	//alert('Tem Ligação á Internet');
+		    	var online = $('#online');
+			    var offline = $('#offline');
+			    offline.show();
+			    online.hide(); 
+		    }
+
+		    alert('Connection type: ' + states[networkState]);
+    	};
+
+	</script>
+
+	<script type="text/javascript">
+
+		(function(window, PhotoSwipe){
+		
+			document.addEventListener('DOMContentLoaded', function(){
+			
+				var
+					options = {captionAndToolbarHide:true},
+					instance = PhotoSwipe.attach( window.document.querySelectorAll('#Gallery a'), options );
+			
+			}, false);
+			
+			
+		}(window, window.Code.PhotoSwipe));
+		
+	</script>
+
+	<script type="text/javascript">
+
+		(function(window, PhotoSwipe){
+		
+			document.addEventListener('DOMContentLoaded', function(){
+			
+				var
+					options = {captionAndToolbarHide:true},
+					instance = PhotoSwipe.attach( window.document.querySelectorAll('#GalleryBD a'), options );
+			
+			}, false);
+			
+			
+		}(window, window.Code.PhotoSwipe));
+		
+	</script>
+
+</head>
+<body onload="init()">
+<div class="app" data-role="page" id="home">
+
+    <header data-role="header" data-position="fixed">
+      <h1><img src="img/logo.png" /></h1>
+    </header> 
+
+    <div data-role="content" role="main" style="padding:0px;">
+      <div id="conteudoHome">
+      	<div style="width:900px;height:457px;margin:0;display:block;background:url(img/bonecosHome.png) center top no-repeat;">
+      		<div style="height:310px;"></div>
+			<div id="homeMenu" style="display:none;">
+				<ul>
+			    	<li><a href="#audio" data-iconpos="top" data-icon="noidz-audio" data-role="button" data-transition="pop">AUDIO</a></li>
+			    	<li><a href="#video" data-iconpos="top" data-icon="noidz-video" data-role="button" data-transition="pop">VIDEO</a></li>
+			    	<li><a href="#fotos" data-iconpos="top" data-icon="noidz-fotos" data-role="button" data-transition="pop">FOTOS</a></li>
+	    			<li><a href="#bd" data-iconpos="top" data-icon="noidz-bd" data-role="button" data-transition="pop">BD</a></li>
+			    	<li><a href="#" data-iconpos="top" data-icon="noidz-loja" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+			    	<li><a href="#contactos" data-iconpos="top" data-icon="noidz-contactos" data-role="button" data-transition="pop">CONTATOS</a></li>
+			    </ul>
+			</div>
+		</div>
+		</div>
+    </div>
+
+</div>
+
+<!-- FIM HOMEPAGE -->
+
+
+<!-- AUDIO -->
+<div class="app" data-role="page" id="audio">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="a" data-display="push">
+	    <ul>
+	    	<li><a href="#home" data-iconpos="left" data-icon="noidz-home-left" data-role="button" data-transition="pop">HOME</a></li>
+	    	<li><a href="#audio" data-iconpos="left" data-icon="noidz-audio-left" data-role="button" data-transition="pop">AUDIO</a></li>
+	    	<li><a href="#video" data-iconpos="left" data-icon="noidz-video-left" data-role="button" data-transition="pop">VIDEO</a></li>
+	    	<li><a href="#fotos" data-iconpos="left" data-icon="noidz-fotos-left" data-role="button" data-transition="pop">FOTOS</a></li>
+	    	<li><a href="#bd" data-iconpos="left" data-icon="noidz-bd-left" data-role="button" data-transition="pop">BD</a></li>
+	    	<li><a href="#" data-iconpos="left" data-icon="noidz-loja-left" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+	    	<li><a href="#contactos" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" data-transition="pop">CONTATOS</a></li>
+	    </ul>
+    </div>
+
+    <header data-role="header" data-position="fixed" data-theme="a">
+      <a data-role="button" data-rel="back" href="#link1">
+	  </a>
+      <h1><img src="img/logo.png" /></h1>
+      <a  data-iconpos="right" href="#panel" data-role="button" data-icon="flat-menu">MENU</a>
+    </header>
+
+	<div data-role="content" data-theme="a" role="main" id="audioPage">
+		<div class="mainTitle">
+		AUDIO
+		</div>
+		
+		<div id="conteudoAudio">
+			<div id="conteudoAudioLeft">
+				<div id="nomeMusica">
+					<label id="song-played">Chapéu Preto</label>
+				</div>
+			<div style="text-align:center;display:block;">
+			<img src="img/cover2.jpg" id="audioCover" width="230" height="230">
+			</div>
+			<div style="display:block;width:100%;float:left; background: url('img/audioBotoesTira.png') center top no-repeat; height: 70px; padding-top: 7px;">
+				<div id="played">
+				<label id="media-played">00:00</label>
+				</div>
+
+		        <!--<div id="percentageAudio"></div>-->
+		        <div id="botoesAudio">
+				<a href="#">
+		            <img id="playAudio1" src="img/play.png" />
+		        </a>
+		        <a href="#">
+		            <img src="img/play.png" id="playPausedAudio1" style="display:none;" />
+		        </a>
+		        <a href="#">
+		            <img src="img/pause.png" id="pauseAudio1" style="display:none;" />
+		        </a>
+		        <a href="#">
+		            <img id="stopAudio1" src="img/stop.png" />
+		        </a>
+		        </div>
+				<div id="playTotal">
+				<label id="media-total-played">02:56</label>
+				</div>
+			</div>
+        </div>
+
+        <div id="conteudoAudioRight">
+        <ul>
+        	<li><a href="#" id="playAudio1">
+				<img src="img/cover2.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								Chapéu Preto
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">MÚSICA EXCLUSIVA</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        	<li>
+				<a href="#" id="playAudio2">
+        		<img src="img/cover1.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								Root Sounds From Earth
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">The Great Escape</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        	<li>
+				<a href="#" id="playAudio3">
+        		<img src="img/cover4.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								We Are The Future
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">2.0.1.3.</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        	<li>
+				<a href="#" id="playAudio4">
+        		<img src="img/cover4.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								Message feat Julio Pereira
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ feat Julio Pereira</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">2.0.1.3.</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        	<li>
+				<a href="#" id="playAudio5">
+	        		<img src="img/cover1.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								Alienoidz Theme
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">The Great Escape</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        	<li>
+				
+				<a href="#" id="playAudio6">
+	        		<img src="img/cover1.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								Blast Waves
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">The Great Escape</span>
+							</div>
+					</
+        	</li>
+        	<li>
+				<a href="#" id="playAudio7">
+        		<img src="img/cover4.jpg" width="80" height="80" />
+	        		<div class="audioLiInfo">
+							<div class="audioTitle">
+								2012
+							</div>
+							<div class="audioArtistAlbum">
+								<span class="artist">NOIDZ</span>&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<span class="album">2.0.1.3.</span>
+							</div>
+					</div>
+        		</a>
+        	</li>
+        </ul>
+        </div>
+		</div>
+	</div><!-- /content -->
+
+</div><!-- /AUDIO -->
+
+<!-- VIDEO -->
+<div data-role="page" id="video">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="a" data-display="push">
+	    <ul>
+	    	<li><a href="#home" data-iconpos="left" data-icon="noidz-home-left" data-role="button" data-transition="pop">HOME</a></li>
+	    	<li><a href="#audio" data-iconpos="left" data-icon="noidz-audio-left" data-role="button" data-transition="pop">AUDIO</a></li>
+	    	<li><a href="#video" data-iconpos="left" data-icon="noidz-video-left" data-role="button" data-transition="pop">VIDEO</a></li>
+	    	<li><a href="#fotos" data-iconpos="left" data-icon="noidz-fotos-left" data-role="button" data-transition="pop">FOTOS</a></li>
+	    	<li><a href="#bd" data-iconpos="left" data-icon="noidz-bd-left" data-role="button" data-transition="pop">BD</a></li>
+	    	<li><a href="#" data-iconpos="left" data-icon="noidz-loja-left" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+	    	<li><a href="#contactos" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" data-transition="pop">CONTATOS</a></li>
+	    </ul>
+    </div>
+
+    <header data-role="header" data-position="fixed" data-theme="a">
+    	<a data-role="button" data-rel="back" href="#link1">
+	  </a>
+      <h1><img src="img/logo.png" /></h1>
+      <a  data-iconpos="right" href="#panel" data-role="button" data-icon="flat-menu">MENU</a>
+	</header>
+
+	<div data-role="content" data-theme="a" role="main" id="videoPage">
+		<div class="mainTitle">
+		VIDEO
+		</div>
+		<div id="conteudoVideoScroll">
+		<div id="conteudoVideo">
+
+			<ul>	
+					<li><a href="#" id="btnVidLocal">
+						<img src="img/videoLocalThumb.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - Teaser - Concentração Motard de Faro
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">1:41"</div>
+						</div>
+						</div></a>
+					</li>
+
+					<li><a href="#" onclick="window.plugins.videoPlayer.play('http://www.youtube.com/watch?v=OyVSv-P6p5k','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">
+						<img src="img/youtube1.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - Root Sound from Earth ao vivo na Aula Magna 
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">4:57"</div>
+						</div>
+						</div></a>
+					</li>
+				
+					<li><a href="#" onclick="window.plugins.videoPlayer.play('http://www.youtube.com/watch?v=aWJ-McDUDug','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">
+						<img src="img/youtube2.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - Root Sound from Earth - Videoclip
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">4:16"</div>
+						</div>
+						</div></a>
+					</li>
+				
+					<li><a href="#" onclick="window.plugins.videoPlayer.play('http://www.youtube.com/watch?v=VkWu4LKEDn8','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">
+						<img src="img/youtube3.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - Estranha Forma de Vida feat. Kátia Guerreiro
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">3:56"</div>
+						</div>
+						</div></a>
+					</li>
+				
+					<li><a href="#" onclick="window.plugins.videoPlayer.play('http://www.youtube.com/watch?v=b7QPIiNAw8k','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">
+						<img src="img/youtube4.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - O Pastor
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">3:59"</div>
+						</div>
+						</div></a>
+					</li>
+				
+					<li><a href="#" onclick="window.plugins.videoPlayer.play('http://www.youtube.com/watch?v=UBtqt-W_POk','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">
+						<img src="img/youtube5.jpg" width="175" height="105" />
+						<div class="videoLiInfo">
+						<div class="videoTitle">
+							Noidz - Medley 2010
+						</div>
+						<div class="videoTime">
+							<div class="iconTime"><img src="img/iconTime.png" /></div>
+							<div class="txtTime">2:31"</div>
+						</div>
+						</div></a>
+					</li>
+				
+			</ul>
+
+		</div>
+		</div>
+	</div><!-- /content -->
+		
+
+</div><!-- /VIDEO -->
+
+
+<!-- FOTOS -->
+<div data-role="page" id="fotos">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="a" data-display="push">
+	    <ul>
+	    	<li><a href="#home" data-iconpos="left" data-icon="noidz-home-left" data-role="button" data-transition="pop">HOME</a></li>
+	    	<li><a href="#audio" data-iconpos="left" data-icon="noidz-audio-left" data-role="button" data-transition="pop">AUDIO</a></li>
+	    	<li><a href="#video" data-iconpos="left" data-icon="noidz-video-left" data-role="button" data-transition="pop">VIDEO</a></li>
+	    	<li><a href="#fotos" data-iconpos="left" data-icon="noidz-fotos-left" data-role="button" data-transition="pop">FOTOS</a></li>
+	    	<li><a href="#bd" data-iconpos="left" data-icon="noidz-bd-left" data-role="button" data-transition="pop">BD</a></li>
+	    	<li><a href="#" data-iconpos="left" data-icon="noidz-loja-left" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+	    	<li><a href="#contactos" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" data-transition="pop">CONTATOS</a></li>
+	    </ul>
+    </div>
+
+    <header data-role="header" data-position="fixed" data-theme="a">
+      <a data-role="button" data-rel="back" href="#link1">
+	  </a>
+      <h1><img src="img/logo.png" /></h1>
+      <a  data-iconpos="right" href="#panel" data-role="button" data-icon="flat-menu">MENU</a>
+    </header>
+
+
+	<div data-role="content" data-theme="a" role="main" id="fotosPage">
+		<div class="mainTitle">
+		FOTOS
+		</div>
+		<div id="conteudoFotosScroll">
+		<div id="conteudoFotos">
+			<ul id="Gallery" class="gallery">
+		
+				<li><a href="img/full/001.jpg"><img src="img/thumb/001.jpg" alt="Image 001" /></a></li>
+				<li><a href="img/full/002.jpg"><img src="img/thumb/002.jpg" alt="Image 002" /></a></li>
+				<li><a href="img/full/003.jpg"><img src="img/thumb/003.jpg" alt="Image 003" /></a></li>
+				<li><a href="img/full/004.jpg"><img src="img/thumb/004.jpg" alt="Image 004" /></a></li>
+				<li><a href="img/full/005.jpg"><img src="img/thumb/005.jpg" alt="Image 005" /></a></li>
+				<li><a href="img/full/006.jpg"><img src="img/thumb/006.jpg" alt="Image 006" /></a></li>
+				<li><a href="img/full/007.jpg"><img src="img/thumb/007.jpg" alt="Image 007" /></a></li>
+				<li><a href="img/full/008.jpg"><img src="img/thumb/008.jpg" alt="Image 008" /></a></li>
+				<li><a href="img/full/009.jpg"><img src="img/thumb/009.jpg" alt="Image 009" /></a></li>
+				<li><a href="img/full/010.jpg"><img src="img/thumb/010.jpg" alt="Image 010" /></a></li>
+				<li><a href="img/full/013.jpg"><img src="img/thumb/013.jpg" alt="Image 013" /></a></li>
+				<li><a href="img/full/014.jpg"><img src="img/thumb/014.jpg" alt="Image 014" /></a></li>
+				<li><a href="img/full/015.jpg"><img src="img/thumb/015.jpg" alt="Image 015" /></a></li>
+				<li><a href="img/full/016.jpg"><img src="img/thumb/016.jpg" alt="Image 016" /></a></li>
+				<li><a href="img/full/017.jpg"><img src="img/thumb/017.jpg" alt="Image 017" /></a></li>
+				<li><a href="img/full/018.jpg"><img src="img/thumb/018.jpg" alt="Image 018" /></a></li>
+				<li><a href="img/full/021.jpg"><img src="img/thumb/021.jpg" alt="Image 021" /></a></li>
+				<li><a href="img/full/022.jpg"><img src="img/thumb/022.jpg" alt="Image 022" /></a></li>
+				<li><a href="img/full/023.jpg"><img src="img/thumb/023.jpg" alt="Image 023" /></a></li>
+				<li><a href="img/full/026.jpg"><img src="img/thumb/026.jpg" alt="Image 026" /></a></li>
+				<li><a href="img/full/027.jpg"><img src="img/thumb/027.jpg" alt="Image 027" /></a></li>
+				<li><a href="img/full/028.jpg"><img src="img/thumb/028.jpg" alt="Image 028" /></a></li>
+				<li><a href="img/full/029.jpg"><img src="img/thumb/029.jpg" alt="Image 029" /></a></li>
+				<li><a href="img/full/030.jpg"><img src="img/thumb/030.jpg" alt="Image 030" /></a></li>
+				<li><a href="img/full/032.jpg"><img src="img/thumb/032.jpg" alt="Image 032" /></a></li>
+				<li><a href="img/full/033.jpg"><img src="img/thumb/033.jpg" alt="Image 033" /></a></li>
+				<li><a href="img/full/034.jpg"><img src="img/thumb/034.jpg" alt="Image 034" /></a></li>
+				<li><a href="img/full/037.jpg"><img src="img/thumb/037.jpg" alt="Image 037" /></a></li>
+				<li><a href="img/full/038.jpg"><img src="img/thumb/038.jpg" alt="Image 038" /></a></li>
+				<li><a href="img/full/039.jpg"><img src="img/thumb/039.jpg" alt="Image 039" /></a></li>
+				<li><a href="img/full/040.jpg"><img src="img/thumb/040.jpg" alt="Image 040" /></a></li>
+				<li><a href="img/full/041.jpg"><img src="img/thumb/041.jpg" alt="Image 041" /></a></li>
+				<li><a href="img/full/042.jpg"><img src="img/thumb/042.jpg" alt="Image 042" /></a></li>
+				<li><a href="img/full/044.jpg"><img src="img/thumb/044.jpg" alt="Image 044" /></a></li>
+				<li><a href="img/full/045.jpg"><img src="img/thumb/045.jpg" alt="Image 045" /></a></li>
+				<li><a href="img/full/046.jpg"><img src="img/thumb/046.jpg" alt="Image 046" /></a></li>
+				<li><a href="img/full/048.jpg"><img src="img/thumb/048.jpg" alt="Image 048" /></a></li>
+				<li><a href="img/full/049.jpg"><img src="img/thumb/049.jpg" alt="Image 049" /></a></li>
+				<li><a href="img/full/050.jpg"><img src="img/thumb/050.jpg" alt="Image 050" /></a></li>
+				<!-- DESENHOS -->
+				<li><a href="img/full/011.jpg"><img src="img/thumb/011.jpg" alt="Image 011" /></a></li>
+				<li><a href="img/full/031.jpg"><img src="img/thumb/031.jpg" alt="Image 031" /></a></li>
+				<li><a href="img/full/035.jpg"><img src="img/thumb/035.jpg" alt="Image 035" /></a></li>
+				<li><a href="img/full/052.jpg"><img src="img/thumb/052.jpg" alt="Image 052" /></a></li>
+				<!-- FOTOS -->
+				<li><a href="img/full/012.jpg"><img src="img/thumb/012.jpg" alt="Image 012" /></a></li>
+				<li><a href="img/full/019.jpg"><img src="img/thumb/019.jpg" alt="Image 019" /></a></li>
+				<li><a href="img/full/036.jpg"><img src="img/thumb/036.jpg" alt="Image 036" /></a></li>
+				<li><a href="img/full/043.jpg"><img src="img/thumb/043.jpg" alt="Image 043" /></a></li>
+				<!-- PERONAGENS -->
+				<li><a href="img/full/020.jpg"><img src="img/thumb/020.jpg" alt="Image 020" /></a></li>
+				<li><a href="img/full/024.jpg"><img src="img/thumb/024.jpg" alt="Image 024" /></a></li>
+				<li><a href="img/full/025.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+				<li><a href="img/full/047.jpg"><img src="img/thumb/047.jpg" alt="Image 047" /></a></li>
+				<li><a href="img/full/051.jpg"><img src="img/thumb/051.jpg" alt="Image 051" /></a></li>
+
+			</ul>
+		</div>
+		</div>
+	</div><!-- /content -->
+
+</div><!-- /FOTOS -->
+
+
+<!-- BD -->
+<div data-role="page" id="bd">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="a" data-display="push">
+	    <ul>
+	    	<li><a href="#home" data-iconpos="left" data-icon="noidz-home-left" data-role="button" data-transition="pop">HOME</a></li>
+	    	<li><a href="#audio" data-iconpos="left" data-icon="noidz-audio-left" data-role="button" data-transition="pop">AUDIO</a></li>
+	    	<li><a href="#video" data-iconpos="left" data-icon="noidz-video-left" data-role="button" data-transition="pop">VIDEO</a></li>
+	    	<li><a href="#fotos" data-iconpos="left" data-icon="noidz-fotos-left" data-role="button" data-transition="pop">FOTOS</a></li>
+	    	<li><a href="#bd" data-iconpos="left" data-icon="noidz-bd-left" data-role="button" data-transition="pop">BD</a></li>
+	    	<li><a href="#" data-iconpos="left" data-icon="noidz-loja-left" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+	    	<li><a href="#contactos" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" data-transition="pop">CONTATOS</a></li>
+	    </ul>
+    </div>
+
+    <header data-role="header" data-position="fixed" data-theme="a">
+      <a data-role="button" data-rel="back" href="#link1">
+	  </a>
+      <h1><img src="img/logo.png" /></h1>
+      <a  data-iconpos="right" href="#panel" data-role="button" data-icon="flat-menu">MENU</a>
+    </header>
+
+
+	<div data-role="content" data-theme="a" role="main" id="BDPage">
+		<div class="mainTitle">
+		BANDA DESENHADA
+		</div>
+			<div id="conteudoBD">
+				<div id="conteudoBDLeft">
+					<ul id="GalleryBD" class="gallery">
+						<li><a href="img/fullbd/001.jpg"><img src="img/thumbbd/001.jpg" alt="Image 023" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/002.jpg"><img src="img/thumb/024.jpg" alt="Image 024" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/003.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/004.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/005.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/006.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/007.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/008.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/009.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/010.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+						<li style="display:none;"><a href="img/fullbd/011.jpg"><img src="img/thumb/025.jpg" alt="Image 025" /></a></li>
+					</ul>
+				</div>
+				<div id="conteudoBDRight">
+					<div class="bdTitleRight">
+						<span>NOIDZ PREVIEW</span>
+					</div>
+					<div class="bdTxtRight">
+						<span>Desenho e côr:</span><br />
+						José Baetas<br />
+						<span>Criação e Argumento</span><br />
+						Matchbox Produções<br />
+						<span>Paginação:</span><br />
+						Paulo Nunes<br />
+					</div>
+				</div>
+			</div>
+	</div><!-- /content -->
+
+
+</div><!-- /BD -->
+
+<!-- CONTACTOS -->
+<div data-role="page" id="contactos">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="a" data-display="push">
+	    <ul>
+	    	<li><a href="#home" data-iconpos="left" data-icon="noidz-home-left" data-role="button" data-transition="pop">HOME</a></li>
+	    	<li><a href="#audio" data-iconpos="left" data-icon="noidz-audio-left" data-role="button" data-transition="pop">AUDIO</a></li>
+	    	<li><a href="#video" data-iconpos="left" data-icon="noidz-video-left" data-role="button" data-transition="pop">VIDEO</a></li>
+	    	<li><a href="#fotos" data-iconpos="left" data-icon="noidz-fotos-left" data-role="button" data-transition="pop">FOTOS</a></li>
+	    	<li><a href="#bd" data-iconpos="left" data-icon="noidz-bd-left" data-role="button" data-transition="pop">BD</a></li>
+	    	<li><a href="#" data-iconpos="left" data-icon="noidz-loja-left" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+	    	<li><a href="#contactos" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" data-transition="pop">CONTATOS</a></li>
+	    </ul>
+    </div>
+
+    
+    <header data-role="header" data-position="fixed" data-theme="a">
+      <a data-role="button" data-rel="back" href="#link1">
+	  </a>
+      <h1><img src="img/logo.png" /></h1>
+      <a  data-iconpos="right" href="#panel" data-role="button" data-icon="flat-menu">MENU</a>
+    </header>
+
+
+	<div data-role="content" data-theme="a" role="main" id="contactosPage">
+		<div class="mainTitle">
+		CONTATOS
+		</div>
+
+		<div id="conteudoContactos">
+			<div id="conteudoContactosScroll">
+				<div class="conteudoContactosScrollLeft">
+					<p>
+						<b>MANAGEMENT NOIDZ:</b><br />
+						Matchbox Produções Artísticas<br />
+						<a href="mailto:geral@matchboxproducoes.com" data-iconpos="left" data-icon="noidz-contactos-left" data-role="button" style="padding-top:0;">geral@matchboxproducoes.com</a>
+						<b>Tel:</b> 00351 969055460<br />
+						<br />
+						<b>MÚSICA</b><br />
+						<b>Produção:</b> Noidz<br />
+						<b>Masterização:</b> Howie Weinberg
+					</p>
+				</div>
+
+				<div class="conteudoContactosScrollRight">
+					<p>
+						<b>NOIDZ</b><br /><br />
+						<b>Zork:</b> Bass & Guitar Dictator<br />
+						<b>Dr Zee:</b> Hypnotic Synths & Vocals<br />
+						<b>Lunatikka:</b> Keyboards & Guitar Diva<br />
+						<b>ZDion:</b> Guitar Shredder<br />
+						<b>Monkka:</b> Wild Caged Drummer<br />
+						<b>Biotikka:</b> Vocals<br />
+						<b>Servus:</b> Bagpipes<br />
+						<br />
+					</p>
+				</div>
+
+				<div class="conteudoContactosScrollAll">
+
+					<ul>
+				    	<li><a href="#" onclick="window.open('http://www.noidz.net','_blank','location=no','closebuttoncaption=Return','clearcache=yes');" data-iconpos="top" data-icon="noidz-home-contactos" data-role="button" data-transition="pop">WWW</a></li>
+				    	<li><a href="#" onclick="window.open('http://www.youtube.com/noidztv','_blank','location=no','closebuttoncaption=Return','clearcache=yes');" data-iconpos="top" data-icon="noidz-youtube-contactos" data-role="button" data-transition="pop">YOUTUBE</a></li>
+				    	<li><a href="#" onclick="window.open('http://www.facebook.com/noidzsounds','_blank','location=no','closebuttoncaption=Return','clearcache=yes');" data-iconpos="top" data-icon="noidz-facebook-contactos" data-role="button" data-transition="pop">FACEBOOK</a></li>
+				    	<li><a href="#" onclick="window.open('http://store.noidz.net','_blank','location=no','closebuttoncaption=Return','clearcache=yes');" data-iconpos="top" data-icon="noidz-loja-contactos" data-role="button" data-transition="pop" onclick="window.open('http://store.noidz.net/','_blank','location=no','closebuttoncaption=Return','clearcache=yes');">LOJA</a></li>
+				    </ul>
+				</div>
+
+				<div class="conteudoCreditosScrollAll">
+					<p>
+						<b>CRÉDITOS</b><br />
+						<br />
+						<b>Aplicação:</b> Luis Custódio<br />
+						<b>Ilutrações:</b> Nuno Ribeiro<br />
+						<b>Banda Desenhada - Desenho e Côr: </b>José Baetas<br />
+						<b>Fotógrafos: </b>Pedro Figueiredo, João Cavaco, Carina Calisto, Ruben Tavares, Carlos Ramalhete, Hugo Bastos, Jorge Simão, Helder Freitas, João Paulo Wadhoomal (Noite e Magazine), Pierre Mollier (Red Carpet), Ana Pereira (Fenther), Rui M. Leal<br />
+						<b>Vídeo: </b>Ricardo Reis, Dinis Parreira e Zé Pinheiro<br />
+						<b>Ideia e Concepção: </b>Matchbox Produções Artísticas<br /><br /> 
+					</p>
+				</div>
+			</div>
+	</div><!-- /content -->
+
+</div><!-- /CONTACTOS -->
+</body>
+</html>

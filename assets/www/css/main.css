@@ -1,0 +1,677 @@
+img {
+	border: none;
+}
+a, a:hover {
+	text-decoration: none;
+}
+.logo {
+	text-align: center;
+}
+.offline{
+	visibility: hidden;
+	color: #C00;
+	font-style: italic;
+}
+.home {
+	background: url('../img/bg.jpg') 0 0 no-repeat;
+}
+#homeMenu{
+	display:block;
+	width:900px;
+	height:113px;
+	background:url('../img/menuHomeTira.png') 0 0 no-repeat;
+	text-align:center;
+	color:#FFF;
+}
+#homeMenu ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#homeMenu ul li{
+	margin: 0 auto;
+	padding: 0;
+	width: 140px;
+	display: inline-block;
+	height: 113px;
+}
+#homeMenu ul li a{
+	height: 95px;
+}
+#homeMenu ul li a:hover{
+	background:none;
+	background-color: rgba(0,0,0,0.8);
+	border: none;
+	font-weight: normal;
+	color: #FFF;
+}
+#homeMenu ul li .ui-btn-up-c{
+	background:none!important;
+	color: #FFF!important;
+	border: none!important;
+	font-weight: normal!important;
+	margin-top: 10px;
+}
+.ui-icon-noidz-audio {
+	background-image: url("../img/iconAudio.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-audio-left {
+	background-image: url("../img/iconAudio.png");
+	width: 56px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-video {
+	background-image: url("../img/iconVideo.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-video-left {
+	background-image: url("../img/iconVideo.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-fotos {
+	background-image: url("../img/iconFotos.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-fotos-left {
+	background-image: url("../img/iconFotos.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-loja {
+	background-image: url("../img/iconLoja.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-loja-left {
+	background-image: url("../img/iconLoja.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-contactos {
+	background-image: url("../img/iconContactos.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-contactos-left {
+	background-image: url("../img/iconContactos.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 3px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-home-left {
+	background-image: url("../img/iconHome.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+.ui-icon-noidz-bd {
+	background-image: url("../img/iconBD.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.ui-icon-noidz-bd-left {
+	background-image: url("../img/iconBD.png");
+	width: 36px;
+	height: 36px;
+	margin-left: 28px!important;
+	margin-top: -15px!important;
+}
+#homeMenu ul li .ui-btn-inner {
+    padding-top: 60px;
+}
+#videoPage, #audioPage, #fotosPage, #lojaPage, #contactosPage{
+	background: none;
+	padding: 0;
+}
+#contactosPage{
+	background: url(../img/contactosBoneco.png) 520px 75px no-repeat;
+}
+#BDPage{
+	background: url(../img/bdBoneco.png) 600px 65px no-repeat;
+	height: 463px;
+	padding: 0;
+}
+.mainTitle{
+	width: 100%;
+	margin: 0;
+	/*background: #000;*/
+	padding: 20px 15px 20px 15px;
+	/*background: #000;*/
+	text-align: left;
+	font-weight: normal;
+	font-size: 22px;
+	border-bottom: 1px dotted #7666a7;
+}
+#conteudoLoja, #conteudoHome{
+	width: 900px;
+	margin: 25px auto 10px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+}
+#conteudoAudio{
+	width: 900px;
+	margin: 15px auto 10px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+}
+#conteudoHome{
+	width: 900px;
+	margin: 0px auto 0px;
+	/*background: #000;*/
+	padding-bottom: 0px;
+}
+#conteudoFotos{
+	width: 800px;
+	margin: 25px auto 10px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+	height: 350px;
+}
+
+#conteudoBD{
+	width: 800px;
+	margin: 25px auto 10px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+	height: 300px;
+}
+#conteudoBDLeft{
+	width: 230px;
+	float: left;
+	display: inline-block;
+}
+#conteudoBDRight{
+	width: 300px;
+	float: left;
+	display: inline-block;
+	margin-left: 20px;
+	padding-top: 22px;
+}
+.bdTitleRight {
+	margin-bottom: 15px;
+}
+.bdTitleRight span{
+	margin: 0 0 7px 0;
+	width: 100%;
+	padding: 0 0 10px 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+	border-bottom: 1px dotted #9b8dc5;
+}
+.bdTxtRight span{
+	font-weight: bold;
+	margin: 5px 0 0 0;
+	width: 100%;
+	padding: 0 0 0 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+}
+
+/* VIDEO */
+
+/*
+#conteudoVideo ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#conteudoVideo ul li:nth-child(odd){
+	margin: 0 0 10px 10px;
+	padding: 0;
+	background: #333;
+	width: 420px;
+	height: 113px;
+	display: inline-block;
+	border: 5px solid #222;
+}
+#conteudoVideo ul li:nth-child(even){
+	margin: 0 0 10px 15px;
+	padding: 0;
+	background: #333;
+	width: 420px;
+	height: 113px;
+	display: inline-block;
+	border: 5px solid #222;
+}
+#conteudoVideo ul li img{
+	margin: 4px 0 0 4px;
+	padding: 0;
+	display: inline-block;
+	float: left;
+}
+#conteudoVideo ul li .videoLiInfo{
+	margin: 4px 0 0 4px;
+	padding: 10px 5px 0 10px;
+	display: inline-block;
+	float: left;
+	background: #222;
+	width: 217px;
+	height: 95px;
+}
+#conteudoVideo ul li .videoLiInfo .videoTitle{
+	margin: 0;
+	width: 100%;
+	padding: 0 0 10px 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+	border-bottom: 1px dotted #333;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime{
+	margin: 0;
+	width: 100%;
+	padding: 5px 0 0 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime .iconTime{
+	display: inline-block;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime .txtTime{
+	display: inline-block;
+	vertical-align:top;
+	padding-top: 7px;
+	padding-left: 10px;
+	font-weight: lighter;
+	color: #243eff;
+	font-size: 0.8em;
+}
+*/
+#conteudoVideoScroll, #conteudoFotosScroll{
+	height: 390px;
+	overflow: auto;
+	width: 100%;
+}
+#conteudoBDScroll{
+	height: 380px;
+	overflow: auto;
+	width: 100%;
+}
+#conteudoContactosScroll{
+	height: 375px;
+	overflow: auto;
+	width: 100%;
+}
+.conteudoContactosScrollRight, .conteudoContactosScrollLeft {
+	height: 230px;
+	width:310px;
+	float: left;
+	display: inline-block;
+	margin-right: 20px;
+}
+.conteudoCreditosScrollAll {
+	width:540px;
+	float: left;
+	display: inline-block;
+	color:#FFF;
+}
+.conteudoContactosScrollAll {
+	height: 100px;
+	width:550px;
+	float: left;
+	display: inline-block;
+	background:url('../img/menuContactosTira.png') 0 0 no-repeat;
+	text-align:center;
+	color:#FFF;
+}
+.conteudoContactosScrollAll ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.conteudoContactosScrollAll ul li{
+	margin: 0 auto;
+	padding: 0;
+	width: 130px;
+	display: inline-block;
+	height: 100px;
+}
+.conteudoContactosScrollAll ul li a{
+	height: 95px;
+}
+.conteudoContactosScrollAll ul li a:hover{
+	background:none;
+	background-color: rgba(0,0,0,0.8);
+	border: none;
+	font-weight: normal;
+	color: #FFF;
+}
+.conteudoContactosScrollAll ul li .ui-btn-up-a{
+	background:none!important;
+	color: #FFF!important;
+	border: none!important;
+	font-weight: normal!important;
+	margin-top: 10px;
+}
+
+.conteudoContactosScrollAll ul li .ui-btn-hover-a{
+	background:none!important;
+	color: #FFF!important;
+	border: none!important;
+	font-weight: normal!important;
+	margin-top: 10px;
+}
+
+.conteudoContactosScrollAll ul li .ui-btn-icon-top .ui-btn-inner {
+    padding-top: 50px;
+    padding-bottom: 10px;
+}
+
+.conteudoContactosScrollAll ul li .ui-icon-noidz-loja-contactos {
+	background-image: url("../img/iconLoja.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.conteudoContactosScrollAll ul li .ui-icon-noidz-home-contactos {
+	background-image: url("../img/iconHome.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.conteudoContactosScrollAll ul li .ui-icon-noidz-youtube-contactos {
+	background-image: url("../img/iconYoutube.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+.conteudoContactosScrollAll ul li .ui-icon-noidz-facebook-contactos {
+	background-image: url("../img/iconFacebook.png");
+	width: 36px;
+	height: 36px;
+	margin-left: -18px!important;
+}
+
+#conteudoContactosScroll a{
+	color: #FFF;
+}
+#conteudoVideo {
+	width: 900px;
+	margin: 25px auto 10px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+}
+
+#conteudoContactos {
+	width: 900px;
+	margin: 0 auto 0px;
+	/*background: #000;*/
+	padding-bottom: 15px;
+}
+
+#conteudoVideo ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#conteudoVideo ul li:nth-child(odd){
+	margin: 0 0 15px 10px;
+	padding: 0;
+	background: url("../img/videosTiraOdd.png") left top no-repeat;
+	width: 420px;
+	height: 113px;
+	display: inline-block;
+	/*border: 5px solid #222;*/
+}
+#conteudoVideo ul li:nth-child(even){
+	margin: 0 0 15px 15px;
+	padding: 0;
+	background: url("../img/videosTira.png") center top no-repeat;
+	width: 420px;
+	height: 113px;
+	display: inline-block;
+	/*border: 5px solid #222;*/
+}
+#conteudoVideo ul li a{
+	text-decoration: none;
+}
+#conteudoVideo ul li a:hover{
+	text-decoration: none;
+}
+#conteudoVideo ul li img{
+	margin: 4px 0 0 4px;
+	padding: 0;
+	display: inline-block;
+	float: left;
+}
+#conteudoVideo ul li .videoLiInfo{
+	margin: 4px 0 0 4px;
+	padding: 10px 5px 0 10px;
+	display: inline-block;
+	float: left;
+	/*background: #222;*/
+	width: 217px;
+	height: 95px;
+}
+#conteudoVideo ul li .videoLiInfo .videoTitle{
+	margin: 0;
+	width: 100%;
+	padding: 0 0 10px 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+	border-bottom: 1px dotted #9b8dc5;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime{
+	margin: 0;
+	width: 100%;
+	padding: 5px 0 0 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime .iconTime{
+	display: inline-block;
+}
+#conteudoVideo ul li .videoLiInfo .videoTime .txtTime{
+	display: inline-block;
+	vertical-align:top;
+	padding-top: 7px;
+	padding-left: 10px;
+	font-weight: lighter;
+	color: #4D90FE;
+	font-size: 0.8em;
+}
+
+
+/* AUDIO */
+#conteudoAudio{
+	width: 100%;
+	height: 345px;
+}
+#conteudoAudioLeft{
+	display: inline-block;
+	float: left;
+	width: 300px;
+	height: 363px;
+	margin: 0 0 0 140px;
+	padding: 0;
+	text-align: center;
+	/*background: url("../img/audioCoverBg.png") left top no-repeat;*/
+}
+#conteudoAudioLeft #audioCover{
+	border: 1px solid #7779E5;
+    /*display: block;*/
+    margin: 0px 5px 5px 5px;
+    padding: 3px;
+}
+#nomeMusica{
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #FFF;
+	margin-bottom: 10px;
+	background: url("../img/audioTitleTira.png") center top no-repeat;
+	height: 30px;
+	padding-top: 4px;
+}
+#played{
+	float: left;
+	text-align: left;
+	width: 50px;
+	padding-top: 18px;
+	margin-left: 30px;
+}
+#playTotal{
+	float: left;
+	text-align: left;
+	width: 50px;
+	padding-top: 18px;
+	margin-left: 0px;
+}
+#botoesAudio{
+	float: left;
+	text-align: left;
+	width: 145px;
+	margin-left: 3px;
+}
+
+#audioCover{
+	margin: 5px;
+}
+
+#controlosAudio{
+	text-align: center;
+	position: relative;
+	margin-top: -230px;
+	height:97px;
+	background-color: rgba(0,0,0,0.8);
+	padding-top: 15px;
+	width: 330px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#conteudoAudioRight{
+	display: inline-block;
+	float: left;
+	width: 560px;
+	margin: 0 0 0 0px;
+	padding: 0;
+	height: 363px;
+	overflow: auto;
+}
+#conteudoAudioRight ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#conteudoAudioRight ul li{
+	list-style: none;
+	margin: 0 0 3px 0;
+	padding: 0;
+	background: url("../img/audioTira.png") left top no-repeat;
+	float: left;
+	display: block;
+	width: 460px;
+}
+#divMediaPlayed{
+	float: left;
+	display: inline-block;
+	width: 70px;
+	padding-top:20px;
+}
+#divBotoesAudio{
+	float: left;
+	display: inline-block;
+	width: 190px;
+}
+#divMediaTotal{
+	float: left;
+	display: inline-block;
+	width: 70px;
+	padding-top:20px;
+}
+#songName{
+	display:block;
+	width: 100%;
+	text-align: center;
+	/*background: #000;*/
+	padding-bottom: 10px;
+}
+#conteudoAudioRight ul li .audioLiInfo{
+	margin: 4px 0 4px 4px;
+	padding: 10px 5px 0 10px;
+	display: inline-block;
+	float: left;
+	/*background: #222;*/
+	width: 342px;
+	height: 70px;
+	text-decoration: none;
+}
+#conteudoAudioRight ul li img{
+	margin: 4px 0 0 4px;
+	padding: 0;
+	display: inline-block;
+	float: left;
+}
+#conteudoAudioRight ul li .audioLiInfo .audioTitle{
+	margin: 0;
+	width: 100%;
+	padding: 0 0 10px 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+	border-bottom: 1px dotted #9b8dc5;
+}
+#conteudoAudioRight ul li .audioLiInfo .audioArtistAlbum{
+	margin: 0;
+	width: 100%;
+	padding: 10px 0 0 0;
+	display: inline-block;
+	float: left;
+	color: #FFF;
+}
+#conteudoAudioRight ul li .audioLiInfo .audioArtistAlbum span.artist, #conteudoAudioRight ul li .audioLiInfo .audioArtistAlbum span.album{
+	font-size: 0.8em;
+	color: #e1e1e1;
+}
+
+/* GALLERY */
+
+.gallery { list-style: none; padding: 0; margin: 0; }
+.gallery:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+.gallery li { float: left; width: 20%; }
+.gallery li a { display: block; margin: 5px; border: 1px solid #7779e5;padding: 3px;}
+.gallery li img { display: block; width: 100%; height: auto; }
+
+
+#GalleryBD li { width: 196px;margin-left: 30px;}
+#GalleryBD li a { display: block; margin: 5px; border: 1px solid #7779e5;padding: 3px;}
+#GalleryBD li img { display: block; width: 100%; height: auto; }
+
+
+/* For inline examples only */
+#PhotoSwipeTarget { width: 100%; height: 200px; }
+
+#Indicators { text-align: center; margin-top: 20px; }
+#Indicators span { display: inline-block; height: 10px; width: 10px; margin: 0 10px 0 0; padding: 0; -webkit-border-radius:5px; -moz-border-radius:5px; -o-border-radius:5px; border-radius:5px; background: #c5c5c5; overflow:hidden; }
+#Indicators span.current{ background: #EEBF02; }
+
+
+
+
+
